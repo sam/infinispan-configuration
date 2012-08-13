@@ -1,0 +1,15 @@
+h1. Infinispan Configuration
+
+h2. Overview
+
+This project is intended to help me explore the Infinispan Programmatic Configuration API to further research embedded servers, clustering, replication, eviction policies, etc.
+
+h2. Usage
+
+From the root of the project run:
+
+bc. mvn clean install
+
+Then you can just start it up:
+
+bc. java -jar target/infinispan-configuration-1.0.0.jar
