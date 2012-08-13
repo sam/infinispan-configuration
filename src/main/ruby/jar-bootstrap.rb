@@ -1,8 +1,20 @@
+#!/usr/bin/env jruby
+
+require "pathname"
+
+if Pathname($0).basename.to_s == "jar-bootstrap.rb"
+  $:.unshift Pathname(__FILE__).dirname
+  Dir["target/dependency/*.jar"].each { |jar| require jar }
+end
+
 require "java"
+require "configuration"
 
-java_import org.infinispan.Cache
-java_import org.infinispan.manager.DefaultCacheManager
-cache = DefaultCacheManager.new.get_cache
+translations = CacheManager.instance.translations
 
-cache["foo"] = "bar"
-p cache.keys
+11.times do |i|
+  translations[i.to_s] = rand(10_000).to_s
+end
+
+sleep 1
+p translations.keys.sort
