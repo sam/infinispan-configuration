@@ -16,7 +16,4 @@ translations = CacheManager.instance.translations
   translations[i.to_s] = rand(10_000).to_s
 end
 
-sleep 1
 p translations.keys.sort
-
-p org.sam.infinispan.Configuration::DAYS
