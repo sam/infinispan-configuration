@@ -18,3 +18,5 @@ end
 
 sleep 1
 p translations.keys.sort
+
+p org.sam.infinispan.Configuration::DAYS
