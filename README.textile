@@ -10,6 +10,14 @@ From the root of the project run:
 
 bc. mvn clean install
 
-Then you can just start it up:
+Then open two shells and run the following in the first:
 
-bc. java -jar target/infinispan-configuration-1.0.0.jar
+bc. JAVA_OPTS=-Djava.net.preferIPv4Stack=true ./start-node0
+
+...and in the second:
+
+bc. JAVA_OPTS=-Djava.net.preferIPv4Stack=true ./start-node1
+
+Now you can type a message in the node1 shell when prompted, and it'll appear in the node0 shell in a few seconds.
+
+I have not determined how to simply disable IPv6 in JGroups, so you might want to add the JAVA_OPTS entry to your @.bash_profile@.

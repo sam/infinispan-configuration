@@ -10,10 +10,23 @@ end
 require "java"
 require "configuration"
 
-translations = CacheManager.instance.translations
+node_id = ARGV[0] ? 1 : 0
 
-11.times do |i|
-  translations[i.to_s] = rand(10_000).to_s
+manager = CacheManager.new(node_id)
+translations = manager.translations
+manager.wait_for_cluster_to_form
+
+translations["message"] = "Waiting..."
+
+if ARGV[0] == "sleep"
+  puts "What do you want to say?"
+  while !(message = STDIN.gets).strip.empty? do
+    translations["message"] = message
+  end
+  translations.clear
+else
+  while translations["message"] do
+    puts translations["message"]
+    sleep 5
+  end
 end
-
-p translations.keys.sort

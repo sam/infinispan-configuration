@@ -1,0 +1,1 @@
+java -Djava.net.preferIPv4Stack=true -jar target/infinispan-configuration-1.0.0.jar
