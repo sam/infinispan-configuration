@@ -19,27 +19,30 @@ class CacheManager
   
   CLUSTER_SIZE = 2
   
-  def initialize(node_id)
+  def initialize(cluster_name, node_id)
     @node_id = node_id
+    @default = ConfigurationBuilder.new
+      .clustering
+      .cache_mode(CacheMode::REPL_SYNC)
+      .l1
+      .build
     @manager = DefaultCacheManager.new(
       GlobalConfigurationBuilder.default_clustered_builder
         .transport
         .add_property("configurationFile", "jgroups-udp.xml")
+        .cluster_name(cluster_name)
+        .rack_id(ENV["ENVIRONMENT"])
+        .machine_id(node_id.to_s)
         .build,
-      ConfigurationBuilder.new
-        .clustering
-        .cache_mode(CacheMode::REPL_SYNC)
-        .build
+      @default
     )
 
-    # @manager.define_configuration "translation",
-    #   ConfigurationBuilder.new.read(@default)
-    #   .clustering
-    #   .cache_mode(CacheMode::REPL_SYNC)
-    #   .l1
-    #   .eviction
-    #   .max_entries(10)
-    #   .build
+    @manager.define_configuration "translation",
+      ConfigurationBuilder.new.read(@default)
+      .eviction
+      .max_entries(10)
+      .build
+
     @translations = @manager.get_cache("translation")
   end
   

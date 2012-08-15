@@ -10,15 +10,16 @@ end
 require "java"
 require "configuration"
 
-node_id = ARGV[0] ? 1 : 0
+cluster_name = ARGV[0]
+node_id = ARGV[1].to_i
 
-manager = CacheManager.new(node_id)
+manager = CacheManager.new(cluster_name, node_id)
 translations = manager.translations
 manager.wait_for_cluster_to_form
 
 translations["message"] = "Waiting..."
 
-if ARGV[0] == "sleep"
+if node_id == 1
   puts "What do you want to say?"
   while !(message = STDIN.gets).strip.empty? do
     translations["message"] = message
