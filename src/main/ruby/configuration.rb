@@ -1,10 +1,13 @@
+require "cluster_validation"
+require "digest/md5"
+
 class CacheManager
   
+  include_package "java.lang"
   include_package "org.infinispan.manager"
   include_package "org.infinispan.config"
   include_package "org.infinispan.configuration.global"
   include_package "org.infinispan.configuration.cache"
-  include_package "org.infinispan.quickstart.clusteredcache.util"
   
   # EVICTION NOTES:
   # LIRS is the default strategy when an eviction with max-entries is set, per
@@ -26,10 +29,15 @@ class CacheManager
       .cache_mode(CacheMode::REPL_SYNC)
       .l1
       .build
+    
+    base_port = (Digest::MD5.hexdigest(cluster_name).to_i(16) % 4000) + 26000
+    System.properties["jgroups.tcp.port"] = "#{base_port}"
+    System.properties["jgroups.tcpping.initial_hosts"] = "localhost[#{base_port}],localhost[#{base_port + 1}]"
+    
     @manager = DefaultCacheManager.new(
       GlobalConfigurationBuilder.default_clustered_builder
         .transport
-        .add_property("configurationFile", "jgroups-udp.xml")
+        .add_property("configurationFile", "jgroups.xml")
         .cluster_name(cluster_name)
         .rack_id(ENV["ENVIRONMENT"])
         .machine_id(node_id.to_s)
