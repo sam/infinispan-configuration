@@ -25,8 +25,3 @@ bc. JAVA_OPTS=-Djava.net.preferIPv4Stack=true ./start mycluster 1
 Now you can type a message in the _node1_ shell when prompted, and it'll appear in the _node0_ shell in a few seconds.
 
 I have not determined how to simply disable IPv6 in JGroups, so you might want to add the @JAVA_OPTS@ entry to your @.bash_profile@.
-
-h2. Todo
-
-* Configure multiple caches, with and without LIRS eviction
-* Ensure other machines don't join a named cluster
