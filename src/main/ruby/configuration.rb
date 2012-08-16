@@ -18,7 +18,7 @@ class CacheManager
   # Eviction::LIRS Enum isn't typecast properly).
   #
   # If we want LIRS, just set the max_entries. If you don't want to enable eviction, then
-  # either don't max the call, or set max_entries to 0 instead.
+  # either don't make the call to #eviction, or set max_entries to 0 instead.
   
   CLUSTER_SIZE = 2
   
