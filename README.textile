@@ -16,11 +16,11 @@ bc. ./start cluster-name:String node_id:Integer
 
 Then open two shells and run the following in the first:
 
-bc. JAVA_OPTS=-Djava.net.preferIPv4Stack=true ./start mycluster 0
+bc. ./start mycluster 0
 
 ...and in the second:
 
-bc. JAVA_OPTS=-Djava.net.preferIPv4Stack=true ./start mycluster 1
+bc. ./start mycluster 1
 
 Now you can type a message in the _node1_ shell when prompted, and it'll appear in the _node0_ shell in a few seconds.
 
